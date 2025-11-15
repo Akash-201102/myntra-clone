@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Myntra</title>
+  <style>
+    /* Reset + Base */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.25;color:#1f2937;background:#f3f4f6}
+    a{color:inherit;text-decoration:none}
+
+    /* Container */
+    .container{max-width:1200px;margin:0 auto;padding:20px}
+
+    /* Header */
+    .header{background:#fff;box-shadow:0 1px 4px rgba(16,24,40,0.06);position:sticky;top:0;z-index:30}
+    .header-inner{display:flex;align-items:center;gap:16px;padding:12px 20px}
+    .brand{font-weight:800;font-size:20px;color:#111827}
+    .search{flex:1;display:flex;align-items:center}
+    .search input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e5e7eb;font-size:14px}
+    .actions{display:flex;gap:12px;align-items:center}
+    .action-btn{background:transparent;border:0;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:center;margin:20px 0}
+    .hero-card{background:linear-gradient(90deg,#fff0f6,#eef2ff);padding:28px;border-radius:12px}
+    .hero h1{margin:0;font-size:28px;color:#111827}
+    .hero p{margin:8px 0;color:#374151}
+    .hero .cta{margin-top:12px;display:flex;gap:10px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+    .btn-primary{background:#4f46e5;color:#fff}
+    .btn-outline{background:#fff;border:1px solid #d1d5db}
+    .hero img{width:100%;border-radius:10px;display:block}
+
+    /* Layout */
+    .layout{display:grid;grid-template-columns:260px 1fr;gap:20px}
+    .card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 1px 3px rgba(15,23,42,0.04)}
+
+    /* Filters */
+    .filters h3{margin:0 0 12px 0;font-size:16px}
+    .filter-group{margin-bottom:12px}
+    .filter-group label{display:block;margin:6px 0;font-size:14px}
+    .checkbox{display:inline-flex;align-items:center;gap:8px}
+
+    /* Products grid */
+    .products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .product{border-radius:10px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+    .product img{width:100%;height:220px;object-fit:cover;display:block}
+    .product-body{padding:12px;flex:1;display:flex;flex-direction:column}
+    .brand{font-weight:700}
+    .title{margin-top:6px;font-size:15px;color:#111827}
+    .price-row{margin-top:auto;display:flex;justify-content:space-between;align-items:center}
+    .price{font-weight:800}
+    .old{font-size:13px;color:#9ca3af;text-decoration:line-through;margin-left:8px}
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .layout{grid-template-columns:1fr}
+      .hero{grid-template-columns:1fr}
+      .products-grid{grid-template-columns:repeat(3,1fr)}
+      .hero img{order:-1}
+    }
+    @media (max-width:700px){
+      .products-grid{grid-template-columns:repeat(2,1fr)}
+      .header-inner{padding:10px}
+      .brand{font-size:18px}
+      .search{display:none}
+    }
+    @media (max-width:420px){
+      .products-grid{grid-template-columns:1fr}
+    }
+
+    /* Small helpers */
+    .muted{color:#6b7280;font-size:13px}
+    .rating{background:#ecfdf5;color:#065f46;padding:2px 6px;border-radius:6px;font-weight:700;font-size:12px}
+    .fav{background:#fff;padding:6px;border-radius:8px;border:1px solid #e5e7eb}
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="brand">Myntra-like</div>
+      </div>
+
+      <div class="search" aria-hidden>
+        <input placeholder="Search for brands, styles or products" />
+      </div>
+
+      <div class="actions">
+        <button class="action-btn">Wishlist</button>
+        <button class="action-btn">Cart</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <h1>Latest fashion arrivals</h1>
+        <p>Top brands, trending styles and curated picks — refreshed weekly for you.</p>
+        <div class="cta">
+          <button class="btn btn-primary">Shop Women</button>
+          <button class="btn btn-outline">Shop Men</button>
+        </div>
+      </div>
+      <img src="https://source.unsplash.com/collection/190727/800x600" alt="hero image" />
+    </section>
+
+    <section class="layout">
+      <aside class="card filters">
+        <h3>Filters</h3>
+        <div class="filter-group">
+          <label>Sort</label>
+          <select style="width:100%;padding:8px;border-radius:8px;border:1px solid #e5e7eb">
+            <option>Popular</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Brands</label>
+          <label class="checkbox"><input type="checkbox" /> Roadster</label>
+          <label class="checkbox"><input type="checkbox" /> H&M</label>
+          <label class="checkbox"><input type="checkbox" /> Zara</label>
+          <label class="checkbox"><input type="checkbox" /> United Colors</label>
+        </div>
+
+        <div class="filter-group">
+          <label>Price</label>
+          <label class="checkbox"><input type="checkbox" /> Under ₹999</label>
+          <label class="checkbox"><input type="checkbox" /> ₹1000 - ₹1999</label>
+          <label class="checkbox"><input type="checkbox" /> ₹2000+</label>
+        </div>
+      </aside>
+
+      <section>
+        <div class="card" style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:700">Showing 12 products</div>
+          <div class="muted">Grid • List</div>
+        </div>
+
+        <div class="products-grid">
+
+          <!-- Product item (repeat) -->
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=1" alt="product image">
+            <div class="product-body">
+              <div class="brand">Roadster</div>
+              <div class="title">Trendy Top 1</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.2</div>
+                <div class="muted">(1.2k)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹899</div>
+                  <div class="old">₹1,299</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=2" alt="product image">
+            <div class="product-body">
+              <div class="brand">H&M</div>
+              <div class="title">Trendy Top 2</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.0</div>
+                <div class="muted">(980)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹749</div>
+                  <div class="old">₹1,199</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=3" alt="product image">
+            <div class="product-body">
+              <div class="brand">Zara</div>
+              <div class="title">Trendy Top 3</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.5</div>
+                <div class="muted">(2.3k)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹1,299</div>
+                  <div class="old">₹1,999</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=4" alt="product image">
+            <div class="product-body">
+              <div class="brand">United Colors</div>
+              <div class="title">Trendy Top 4</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">3.9</div>
+                <div class="muted">(430)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹699</div>
+                  <div class="old">₹1,099</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Duplicate a few more to fill grid -->
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=5" alt="product image">
+            <div class="product-body">
+              <div class="brand">Roadster</div>
+              <div class="title">Trendy Top 5</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.1</div>
+                <div class="muted">(760)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹849</div>
+                  <div class="old">₹1,299</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=6" alt="product image">
+            <div class="product-body">
+              <div class="brand">H&M</div>
+              <div class="title">Trendy Top 6</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.4</div>
+                <div class="muted">(1.1k)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹999</div>
+                  <div class="old">₹1,499</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=7" alt="product image">
+            <div class="product-body">
+              <div class="brand">Zara</div>
+              <div class="title">Trendy Top 7</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.3</div>
+                <div class="muted">(890)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹1,149</div>
+                  <div class="old">₹1,699</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=8" alt="product image">
+            <div class="product-body">
+              <div class="brand">United Colors</div>
+              <div class="title">Trendy Top 8</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.0</div>
+                <div class="muted">(540)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹799</div>
+                  <div class="old">₹1,299</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=9" alt="product image">
+            <div class="product-body">
+              <div class="brand">Roadster</div>
+              <div class="title">Trendy Top 9</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.6</div>
+                <div class="muted">(3.1k)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹1,399</div>
+                  <div class="old">₹1,999</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=10" alt="product image">
+            <div class="product-body">
+              <div class="brand">H&M</div>
+              <div class="title">Trendy Top 10</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">3.8</div>
+                <div class="muted">(210)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹649</div>
+                  <div class="old">₹999</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=11" alt="product image">
+            <div class="product-body">
+              <div class="brand">Zara</div>
+              <div class="title">Trendy Top 11</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.2</div>
+                <div class="muted">(760)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹1,049</div>
+                  <div class="old">₹1,499</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product">
+            <img src="https://source.unsplash.com/collection/190727/400x400?sig=12" alt="product image">
+            <div class="product-body">
+              <div class="brand">United Colors</div>
+              <div class="title">Trendy Top 12</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+                <div class="rating">4.1</div>
+                <div class="muted">(610)</div>
+              </div>
+              <div class="price-row">
+                <div>
+                  <div class="price">₹849</div>
+                  <div class="old">₹1,299</div>
+                </div>
+                <button class="fav">Add</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div style="text-align:center;margin-top:20px">
+          <button class="btn btn-outline">Load more</button>
+        </div>
+
+      </section>
+    </section>
+  </main>
+
+  <footer style="padding:20px;text-align:center;color:#6b7280;font-size:13px;margin-top:24px">
+    © Myntra
+  </footer>
+
+</body>
+</html>
